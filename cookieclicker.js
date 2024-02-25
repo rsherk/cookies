@@ -57,6 +57,7 @@ auto.stopAccelerator = function () {
 **/
 auto.clickGoldenIfPresent = function () {
     document.querySelectorAll("div.shimmer").forEach((b) => { console.log("Golden!"); b.click(); });
+    document.querySelectorAll("span.fortune").forEach((b) => { console.log("Fortune!"); b.click(); });
 }
 
 /** Auto cookie clicker 
@@ -82,7 +83,16 @@ auto.stopClicking = function () {
 auto.startUpgrading = function () {
     if (!auto.Upgrading) {
         auto.Upgrading = setInterval(function () {
-            document.getElementById('upgrade0').click();
+            for(var i = 0; i < Game.UpgradesInStore.length; i++) {
+                var upgrade = Game.UpgradesInStore[i];
+                if(upgrade.pool != "toggle"
+                    && upgrade.pool != "tech"
+                    && upgrade.canBuy()) {
+                    console.log("Buying: " + upgrade.name);
+                    upgrade.buy();
+                    break;
+                }
+            }  
         }, 500);
     }
 }
